@@ -19,14 +19,18 @@ This work is used for reproduce MTCNN,a Joint Face Detection and Alignment using
 4. Run `gen_landmark_aug_12.py` to generate training data(Face Landmark Detection Part) for **PNet**.
 5. Run `gen_imglist_pnet.py` to merge two parts of training data.
 6. Run `gen_PNet_tfrecords.py` to generate tfrecord for **PNet**.
-7. After training **PNet**, run `gen_hard_example` to generate training data(Face Detection Part) for **RNet**.
-8. Run `gen_landmark_aug_24.py` to generate training data(Face Landmark Detection Part) for **RNet**.
-9. Run `gen_imglist_rnet.py` to merge two parts of training data.
-10. Run `gen_RNet_tfrecords.py` to generate tfrecords for **RNet**.(**you should run this script four times to generate tfrecords of neg,pos,part and landmark respectively**)
-11. After training **RNet**, run `gen_hard_example` to generate training data(Face Detection Part) for **ONet**.
-12. Run `gen_landmark_aug_48.py` to generate training data(Face Landmark Detection Part) for **ONet**.
-13. Run `gen_imglist_onet.py` to merge two parts of training data.
-14. Run `gen_ONet_tfrecords.py` to generate tfrecords for **ONet**.(**you should run this script four times to generate tfrecords of neg,pos,part and landmark respectively**)
+7. run ../train_models/train_PNet.py to train PNet
+8. After training **PNet**, run `gen_hard_example` to generate training data(Face Detection Part) for **RNet**.
+9. Run `gen_landmark_aug_24.py` to generate training data(Face Landmark Detection Part) for **RNet**.
+The default is ONet, you need to edit `gen_landmark_aug_24.py` and run "python gen_hard_example.py --test_mode PNet"
+10. Run `gen_imglist_rnet.py` to merge two parts of training data.
+11. Run `gen_RNet_tfrecords.py` to generate tfrecords for **RNet**.(**you should run this script four times to generate tfrecords of neg,pos,part and landmark respectively**) You need to edit this scrip when you want to generate different tfrecords.
+12. run ../train_models/train_RNet.py to train RNet 
+13. After training **RNet**, run `gen_hard_example` to generate training data(Face Detection Part) for **ONet**.
+ type 'python gen_hard_example.py --test_mode RNet' in teriminal.
+14. Run `gen_landmark_aug_48.py` to generate training data(Face Landmark Detection Part) for **ONet**.
+15. Run `gen_imglist_onet.py` to merge two parts of training data.
+16. Run `gen_ONet_tfrecords.py` to generate tfrecords for **ONet**.(**you should run this script four times to generate tfrecords of neg,pos,part and landmark respectively**) Here is like step11.
 
 ## Some Details
 * When training **PNet**,I merge four parts of data(pos,part,landmark,neg) into one tfrecord,since their total number radio is almost 1:1:1:3.But when training **RNet** and **ONet**,I generate four tfrecords,since their total number is not balanced.During training,I read 64 samples from pos,part and landmark tfrecord and read 192 samples from neg tfrecord to construct mini-batch.
